@@ -1,27 +1,27 @@
 import React from 'react';
-import Authenticated from '@/Layouts/Authenticated';
+import Authenticated from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm, usePage, Link } from '@inertiajs/inertia-react';
 
 export default function Dashboard(props) {
 
-    const { post } = usePage().props;
+    const { product } = usePage().props;
     const { data, setData, put, errors } = useForm({
-        title: post.title || "",
-        body: post.body || "",
+        name: product.name || "",
+        price: product.price || "",
     });
 
     function handleSubmit(e) {
         e.preventDefault();
-        put(route("posts.update", post.id));
+        put(route("products.update", product.id));
     }
 
     return (
         <Authenticated
             auth={props.auth}
             errors={props.errors}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Edit Post</h2>}
+            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Upravit položku</h2>}
         >
-            <Head title="Posts" />
+            <Head title="Products" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -31,45 +31,47 @@ export default function Dashboard(props) {
                             <div className="flex items-center justify-between mb-6">
                                 <Link
                                     className="px-6 py-2 text-white bg-blue-500 rounded-md focus:outline-none"
-                                    href={ route("posts.index") }
+                                    href={ route("products.index") }
                                 >
-                                    Back
+                                    Na výpis
                                 </Link>
                             </div>
 
                             <form name="createForm" onSubmit={handleSubmit}>
                                 <div className="flex flex-col">
                                     <div className="mb-4">
-                                        <label className="">Title</label>
+                                        <label className="">Název</label>
                                         <input
                                             type="text"
                                             className="w-full px-4 py-2"
-                                            label="Title"
-                                            name="title"
-                                            value={data.title}
+                                            label="Název"
+                                            name="name"
+                                            value={data.name}
                                             onChange={(e) =>
-                                                setData("title", e.target.value)
+                                                setData("name", e.target.value)
                                             }
                                         />
                                         <span className="text-red-600">
-                                            {errors.title}
+                                            {errors.name}
                                         </span>
                                     </div>
-                                    <div className="mb-0">
-                                        <label className="">Body</label>
-                                        <textarea
-                                            type="text"
-                                            className="w-full rounded"
-                                            label="body"
-                                            name="body"
-                                            errors={errors.body}
-                                            value={data.body}
+                                </div>
+                                <div className="flex flex-col">
+                                    <div className="mb-4">
+                                        <label className="">Cena</label>
+                                        <input
+                                            type="number"
+                                            className="w-full px-4 py-2"
+                                            label="Cena"
+                                            name="price"
+                                            step=".01"
+                                            value={data.price}
                                             onChange={(e) =>
-                                                setData("body", e.target.value)
+                                                setData("price", e.target.value)
                                             }
                                         />
                                         <span className="text-red-600">
-                                            {errors.body}
+                                            {errors.price}
                                         </span>
                                     </div>
                                 </div>
@@ -78,7 +80,7 @@ export default function Dashboard(props) {
                                         type="submit"
                                         className="px-6 py-2 font-bold text-white bg-green-500 rounded"
                                     >
-                                        Update
+                                        Uložit
                                     </button>
                                 </div>
                             </form>

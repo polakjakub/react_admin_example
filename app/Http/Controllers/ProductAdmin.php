@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Validator;
 
 class ProductAdmin extends Controller
 {
@@ -26,7 +27,7 @@ class ProductAdmin extends Controller
      */
     public function create()
     {
-        return Inertia::render('Products/Create');
+        return Inertia::render('Admin/Product/Create');
     }
 
     /**
@@ -37,11 +38,11 @@ class ProductAdmin extends Controller
     public function store(Request $request)
     {
         Validator::make($request->all(), [
-            'title' => ['required'],
-            'body' => ['required'],
+            'name' => ['required'],
+            'price' => ['required'],
         ])->validate();
 
-        Product::create($request->all());
+        Post::create($request->all());
 
         return redirect()->route('products.index');
     }
@@ -53,7 +54,7 @@ class ProductAdmin extends Controller
      */
     public function edit(Product $product)
     {
-        return Inertia::render('Products/Edit', [
+        return Inertia::render('Admin/Product/Edit', [
             'product' => $product
         ]);
     }
@@ -66,8 +67,8 @@ class ProductAdmin extends Controller
     public function update($id, Request $request)
     {
         Validator::make($request->all(), [
-            'title' => ['required'],
-            'body' => ['required'],
+            'name' => ['required'],
+            'price' => ['required'],
         ])->validate();
 
         Product::find($id)->update($request->all());
