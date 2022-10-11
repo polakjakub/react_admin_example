@@ -16,8 +16,8 @@ use Inertia\Inertia;
 */
 
 Route::resource('products', \App\Http\Controllers\ProductAdmin::class);
-//Route::resource('suppliers', \App\Models\Supplier::class);
-//Route::resource('stocks', \App\Models\Stock::class);
+Route::resource('suppliers', \App\Http\Controllers\SupplierAdmin::class);
+Route::resource('stocks', \App\Http\Controllers\StockAdmin::class);
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [

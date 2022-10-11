@@ -4,11 +4,11 @@ import { Inertia } from "@inertiajs/inertia";
 import { Head, usePage, Link } from '@inertiajs/inertia-react';
 
 export default function Dashboard(props) {
-    const { products } = usePage().props
+    const { suppliers } = usePage().props
 
     function destroy(e) {
         if (confirm("Are you sure you want to delete this user?")) {
-            Inertia.delete(route("products.destroy", e.currentTarget.id));
+            Inertia.delete(route("suppliers.destroy", e.currentTarget.id));
         }
     }
 
@@ -18,7 +18,7 @@ export default function Dashboard(props) {
             errors={props.errors}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Položky</h2>}
         >
-            <Head title="Products" />
+            <Head title="Suppliers" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -28,7 +28,7 @@ export default function Dashboard(props) {
                             <div className="flex items-center justify-between mb-6">
                                 <Link
                                     className="px-6 py-2 text-white bg-green-500 rounded-md focus:outline-none"
-                                    href={ route("products.create") }
+                                    href={ route("suppliers.create") }
                                 >
                                     Vytvoř položku
                                 </Link>
@@ -39,21 +39,21 @@ export default function Dashboard(props) {
                                 <tr className="bg-gray-100">
                                     <th className="px-4 py-2 w-20">ídé</th>
                                     <th className="px-4 py-2">Název</th>
-                                    <th className="px-4 py-2">Cena</th>
+                                    <th className="px-4 py-2">Adresa</th>
                                     <th className="px-4 py-2">Co s tím</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {products.map(({ id, name, price }) => (
+                                {suppliers.map(({ id, name, address }) => (
                                     <tr>
                                         <td className="border px-4 py-2">{ id }</td>
                                         <td className="border px-4 py-2">{ name }</td>
-                                        <td className="border px-4 py-2">{ price }</td>
+                                        <td className="border px-4 py-2">{ address }</td>
                                         <td className="border px-4 py-2">
                                             <Link
                                                 tabIndex="1"
                                                 className="px-4 py-2 text-sm text-white bg-blue-500 rounded"
-                                                href={route("products.edit", id)}
+                                                href={route("suppliers.edit", id)}
                                             >
                                                 Upraviti
                                             </Link>
@@ -70,7 +70,7 @@ export default function Dashboard(props) {
                                     </tr>
                                 ))}
 
-                                {products.length === 0 && (
+                                {suppliers.length === 0 && (
                                     <tr>
                                         <td
                                             className="px-6 py-4 border-t"
