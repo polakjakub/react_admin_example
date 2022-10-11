@@ -4,7 +4,7 @@ import { Head, useForm, usePage, Link } from '@inertiajs/inertia-react';
 
 export default function Dashboard(props) {
 
-    const { product } = usePage().props;
+    const { product, suppliers, stocks } = usePage().props;
     const { data, setData, put, errors } = useForm({
         name: product.name || "",
         price: product.price || "",
@@ -40,6 +40,26 @@ export default function Dashboard(props) {
                             <form name="createForm" onSubmit={handleSubmit}>
                                 <div className="flex flex-col">
                                     <div className="mb-4">
+                                        <label className="">Dodavatel</label>
+                                        <select
+                                            className="w-full px-4 py-2"
+                                            value={data.supplier_id}
+                                            name="supplier_id"
+                                            onChange={(e) =>
+                                                setData("supplier_id", e.target.value)
+                                            }
+                                        >
+                                            {suppliers.map(({ id, name }) => (
+                                                <option value={ id }>{ name }</option>
+                                            ))}
+                                        </select>
+                                        <span className="text-red-600">
+                                            {errors.supplier_id}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col">
+                                    <div className="mb-4">
                                         <label className="">Název</label>
                                         <input
                                             type="text"
@@ -73,6 +93,22 @@ export default function Dashboard(props) {
                                         <span className="text-red-600">
                                             {errors.price}
                                         </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col">
+                                    <div className="mb-4">
+
+                                        <label>Sklady</label>
+                                        <ul>
+                                        {stocks.map(({ id, name }) => (
+                                            <li><label><input type="number" step="1" name={"stock[" + id + "]"} value="0"
+                                                              onChange={(e) =>
+                                                                  setData("stock[" + id + "]", e.target.value)
+                                                              }
+
+                                            />{ name }</label></li>
+                                        ))}
+                                        </ul>
                                     </div>
                                 </div>
                                 <div className="mt-4">

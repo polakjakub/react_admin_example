@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Stock;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Inertia\Inertia;
@@ -27,7 +29,9 @@ class ProductAdmin extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/Product/Create');
+        return Inertia::render('Admin/Product/Create', [
+            'suppliers' => Supplier::all()
+        ]);
     }
 
     /**
@@ -40,6 +44,7 @@ class ProductAdmin extends Controller
         Validator::make($request->all(), [
             'name' => ['required'],
             'price' => ['required'],
+            'supplier_id' => ['required'],
         ])->validate();
 
         Post::create($request->all());
@@ -55,7 +60,9 @@ class ProductAdmin extends Controller
     public function edit(Product $product)
     {
         return Inertia::render('Admin/Product/Edit', [
-            'product' => $product
+            'product' => $product,
+            'suppliers' => Supplier::all(),
+            'stocks' => Stock::all(),
         ]);
     }
 
@@ -69,6 +76,7 @@ class ProductAdmin extends Controller
         Validator::make($request->all(), [
             'name' => ['required'],
             'price' => ['required'],
+            'supplier_id' => ['required'],
         ])->validate();
 
         Product::find($id)->update($request->all());

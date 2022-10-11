@@ -1,12 +1,14 @@
 import React from 'react';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
-import { Head, useForm, Link } from '@inertiajs/inertia-react';
+import {Head, useForm, Link, usePage} from '@inertiajs/inertia-react';
 
 export default function Dashboard(props) {
 
+    const { suppliers } = usePage().props;
     const { data, setData, errors, post } = useForm({
         name: "",
         price: "",
+        supplier_id: "",
     });
 
     function handleSubmit(e) {
@@ -37,6 +39,26 @@ export default function Dashboard(props) {
                             </div>
 
                             <form name="createForm" onSubmit={handleSubmit}>
+                                <div className="flex flex-col">
+                                    <div className="mb-4">
+                                        <label className="">Dodavatel</label>
+                                        <select
+                                            className="w-full px-4 py-2"
+                                            value={data.supplier_id}
+                                            name="supplier_id"
+                                            onChange={(e) =>
+                                                setData("supplier_id", e.target.value)
+                                            }
+                                        >
+                                        {suppliers.map(({ id, name }) => (
+                                            <option value={ id }>{ name }</option>
+                                        ))}
+                                        </select>
+                                        <span className="text-red-600">
+                                            {errors.supplier_id}
+                                        </span>
+                                    </div>
+                                </div>
                                 <div className="flex flex-col">
                                     <div className="mb-4">
                                         <label className="">Název</label>
